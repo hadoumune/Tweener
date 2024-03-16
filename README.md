@@ -4,7 +4,7 @@ UniTaskで動作するTweener
 # Install
 PackageManager->+ Add Package from git URLで以下のURLを指定する<br>
 ```
-https://github.com/hadoumune/Tweener/edit/main/README.md](https://github.com/hadoumune/Tweener.git?path=Packages/Tweener
+https://github.com/hadoumune/Tweener.git?path=Packages/Tweener
 ```
 
 # 使い方
