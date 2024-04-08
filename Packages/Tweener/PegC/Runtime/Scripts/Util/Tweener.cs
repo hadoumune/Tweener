@@ -180,15 +180,24 @@ namespace PegC.Util
 		}
 
 		static CancellationToken getCT(GameObject go,CancellationToken? ct=null){
-			if ( ct != null ) return ct.Value;
-			return go?go.GetCancellationTokenOnDestroy():CancellationToken.None;
+			if ( ct != null ){
+				//Debug.Log($"GetCt:<color=green>src:{ct.Value}</color>");
+				return ct.Value;
+			}
+			/*
+			else{
+				var name = go!=null?go.name:"nullObject";
+				Debug.Log($"GetCt:<color=red>src:null,go:{name}</color>");
+			}
+			*/
+			return go!=null?go.GetCancellationTokenOnDestroy():CancellationToken.None;
 		}
-		static CancellationToken getCT(Transform t,CancellationToken? ct=null) => getCT(t.gameObject);
-		static CancellationToken getCT(Renderer r,CancellationToken? ct=null) => getCT(r.gameObject);
-		static CancellationToken getCT(Graphic r,CancellationToken? ct=null) => getCT(r.gameObject);
-		static CancellationToken getCT(SpriteRenderer r,CancellationToken? ct=null) => getCT(r.gameObject);
-		static CancellationToken getCT(CanvasGroup g,CancellationToken? ct=null) => getCT(g.gameObject);
-		static CancellationToken getCT(TMP_Text t,CancellationToken? ct=null) => getCT(t.gameObject);
+		static CancellationToken getCT(Transform t,CancellationToken? ct=null) => getCT(t.gameObject,ct);
+		static CancellationToken getCT(Renderer r,CancellationToken? ct=null) => getCT(r.gameObject,ct);
+		static CancellationToken getCT(Graphic r,CancellationToken? ct=null) => getCT(r.gameObject,ct);
+		static CancellationToken getCT(SpriteRenderer r,CancellationToken? ct=null) => getCT(r.gameObject,ct);
+		static CancellationToken getCT(CanvasGroup g,CancellationToken? ct=null) => getCT(g.gameObject,ct);
+		static CancellationToken getCT(TMP_Text t,CancellationToken? ct=null) => getCT(t.gameObject,ct);
 		static CancellationToken getCT(Material m,CancellationToken? ct=null) {
 			return ct!=null?ct.Value:CancellationToken.None;
 		}
