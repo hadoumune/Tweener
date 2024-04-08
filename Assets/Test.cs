@@ -11,8 +11,8 @@ public class Test : MonoBehaviour
     async UniTask Start()
     {
         //await gameObject.LocalRotXTo(200.0f,5.0f,EaseType.Linear);
-        await gameObject.LocalRotYTo(200.0f,5.0f,EaseType.Linear);
-        
+        await gameObject.LocalRotYTo(200.0f,5.0f);
+        await gameObject.XTo<Tweener.QuadIn>(3.0f,5.0f);
     }
 
     // Update is called once per frame
