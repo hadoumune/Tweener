@@ -1,6 +1,6 @@
 {
     "name": "com.pegionchest.tweener",
-    "version": "0.8.0",
+    "version": "0.8.1",
     "displayName": "PegC Tweener",
     "description": "A simple tweener package that depends on UniTask for asynchronous operations.",
     "unity": "2019.4",
