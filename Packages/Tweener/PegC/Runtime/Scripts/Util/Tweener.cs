@@ -605,7 +605,6 @@ namespace PegC.Util
 												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
 		}
 
-
 		public static async UniTask ColorTo(this Renderer fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
 		{
@@ -662,6 +661,109 @@ namespace PegC.Util
 			fromObj.color = from;
 			await Tween( fromObj.color, to, duration,
 								(newPos)=>{ fromObj.color = newPos; },
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask HSVTo(this Renderer fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			Vector3 hsv = Vector3.zero;
+			Color.RGBToHSV(fromObj.material.color,out hsv.x, out hsv.y, out hsv.z );
+			await Tween( hsv, to, duration,
+								(newPos)=>{
+									var newCol = Color.HSVToRGB(newPos.x,newPos.y,newPos.z);
+									newCol.a = fromObj.material.color.a;
+									fromObj.material.color = newCol;
+								},
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask HSVTo(this Graphic fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			Vector3 hsv = Vector3.zero;
+			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
+			await Tween( hsv, to, duration,
+								(newPos)=>{
+									var newCol = Color.HSVToRGB(newPos.x,newPos.y,newPos.z);
+									newCol.a = fromObj.material.color.a;
+									fromObj.color = newCol;
+								},
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask HSVTo(this SpriteRenderer fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			Vector4 hsv = Vector4.zero;
+			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
+			hsv.w = fromObj.color.a;
+			await Tween( hsv, to, duration,
+								(newPos)=>{
+									var newCol = Color.HSVToRGB(newPos.x,newPos.y,newPos.z);
+									newCol.a = newPos.w;
+									fromObj.color = newCol;
+								},
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask HSVTo(this Renderer fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			Vector4 hsv = Vector4.zero;
+			Color.RGBToHSV(fromObj.material.color,out hsv.x, out hsv.y, out hsv.z );
+			hsv.w = fromObj.material.color.a;
+			await Tween( hsv, to, duration,
+								(newPos)=>{
+									var newCol = Color.HSVToRGB(newPos.x,newPos.y,newPos.z);
+									newCol.a = newPos.w;
+									fromObj.material.color = newCol;
+								},
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask HSVTo(this Graphic fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			Vector4 hsv = Vector4.zero;
+			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
+			hsv.w = fromObj.color.a;
+			await Tween( hsv, to, duration,
+								(newPos)=>{
+									var newCol = Color.HSVToRGB(newPos.x,newPos.y,newPos.z);
+									newCol.a = newPos.w;
+									fromObj.color = newCol;
+								},
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask HSVTo(this Material fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			Vector4 hsv = Vector4.zero;
+			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
+			hsv.w = fromObj.color.a;
+			await Tween( hsv, to, duration,
+								(newPos)=>{
+									var newCol = Color.HSVToRGB(newPos.x,newPos.y,newPos.z);
+									newCol.a = newPos.w;
+									fromObj.color = newCol;
+								},
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+		}
+		public static async UniTask HSVTo(this Material fromObj, Color from,Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			fromObj.color = from;
+			Vector4 hsv = Vector4.zero;
+			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
+			hsv.w = fromObj.color.a;
+			await Tween( hsv, to, duration,
+								(newPos)=>{
+									var newCol = Color.HSVToRGB(newPos.x,newPos.y,newPos.z);
+									newCol.a = newPos.w;
+									fromObj.color = newCol;
+								},
 								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
 		}
 
