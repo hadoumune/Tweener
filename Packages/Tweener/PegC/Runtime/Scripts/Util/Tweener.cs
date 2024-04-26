@@ -4,8 +4,7 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using System.Threading;
 using TMPro;
-using System;
-using UnityEngine.Experimental.GlobalIllumination;
+using PegC.Util.ValueSetter;
 
 namespace PegC.Util
 {
@@ -89,6 +88,28 @@ namespace PegC.Util
 			void ReverseUpdate(float t);
 		}
 
+		struct ValueSetter<S,T>{
+			public S updateSrc;
+			public ValueSetter( S src )
+			{
+				updateSrc = src;
+			}
+			public void UpdateFunction(T value){}
+		}
+
+		struct UpdaterParamNew<S,T> where S : Component where T: struct {
+			public T from;
+			public T to;
+			public ComponentUpdater<S,T> updater;
+			public Interporate op;
+			public UpdaterParamNew( T from, T to, Interporate op,ComponentUpdater<S,T> updater){
+				this.from = from;
+				this.to = to;
+				this.updater = updater;
+				this.op = op;
+			}
+		}
+
 		struct UpdaterParam<T> {
 			public T from;
 			public T to;
@@ -134,8 +155,8 @@ namespace PegC.Util
 			public void ReverseUpdate(float t) => param.update.Invoke(param.op.Op(param.to, param.from, Mathf.Clamp01(t)));
 		}
 
-		static async UniTask tweenBase(IUpdaterBase updater, float duration, CancellationToken ct,
-												System.Action<bool> complete=null,int repeat=0, float delay=0, bool pingPong=false)
+		static async UniTask tweenBase<T>(T updater, float duration, CancellationToken ct,
+												System.Action<bool> complete=null,int repeat=0, float delay=0, bool pingPong=false) where T: IUpdaterBase
 		{
 			var counter = repeat+1;
 			var isInfinite = repeat < 0;
@@ -280,7 +301,7 @@ namespace PegC.Util
 		public static async UniTask XYOffset(this Transform transform, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
 		{
-			await transform.XYTo( (Vector2)transform.localPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.XYTo( (Vector2)transform.position+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
 		}
 
 		public static async UniTask LocalXYTo(this Transform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
@@ -391,6 +412,42 @@ namespace PegC.Util
 												type, getCT(transform,ct), complete, repeat, delay, pingPong );
 		}
 
+		// RectTransform
+		public static async UniTask AnchorXTo(this RectTransform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			await Tween( transform.anchoredPosition.x, to, duration, (newPos)=>{ var p = transform.position; p.x = newPos; transform.position = p; },
+												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+		}
+		public static async UniTask AnchorYTo(this RectTransform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			await Tween( transform.anchoredPosition.y, to, duration, (newPos)=>{ var p = transform.position; p.y = newPos; transform.position = p; },
+												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask AnchorXOffset(this RectTransform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			await transform.XTo( transform.anchoredPosition.x+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+		}
+		public static async UniTask AnchorYOffset(this RectTransform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			await transform.YTo( transform.anchoredPosition.y+offset,duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+		}
+
+		public static async UniTask AnchorXYTo(this RectTransform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			await Tween( (Vector2)transform.anchoredPosition, to, duration, (newPos)=>{ var p = transform.position; p.x = newPos.x; p.y = newPos.y; transform.position = p; },
+												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+		}
+		public static async UniTask AnchorXYOffset(this RectTransform transform, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+		{
+			await transform.XYTo( (Vector2)transform.anchoredPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+		}
 
 		// GameObject
 		public static async UniTask XTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
@@ -637,7 +694,7 @@ namespace PegC.Util
 
 
 		// ジェネリクス版
-#region UseGenericsEasing
+	#region UseGenericsEasing
 		public static async UniTask XTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
 					await transform.XTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
@@ -899,8 +956,9 @@ namespace PegC.Util
 		public static async UniTask TextSend<T>(this TMP_Text fromObj, int fromIndex, int toIndex, float duration, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
 					await fromObj.TextSend( fromIndex, toIndex, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
-#endregion UseGenericsEasing
+	#endregion UseGenericsEasing
 
+	#region Tween
 		// 汎用Tween
 		public static async UniTask Tween(float from, float to, float duration, System.Action<float> update, EaseType type=EaseType.Default, CancellationToken ct=default,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
@@ -973,9 +1031,10 @@ namespace PegC.Util
 			var updater = new Vector4Updater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
-
+	#endregion Tween
 
 		// 補間アルゴリズム.
+	#region Interporate
 		private const float HalfPi = Mathf.PI * .5f;
 		private const float DoublePi = Mathf.PI * 2f;
 
@@ -1269,5 +1328,6 @@ namespace PegC.Util
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ return from + (to - from) * Time(time); }
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ return from + (to - from) * Time(time); }
 		}
+	#endregion Interporate
 	}
 }
