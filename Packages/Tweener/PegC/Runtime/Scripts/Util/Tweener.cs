@@ -416,13 +416,13 @@ namespace PegC.Util
 		public static async UniTask AnchorXTo(this RectTransform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
 		{
-			await Tween( transform.anchoredPosition.x, to, duration, (newPos)=>{ var p = transform.position; p.x = newPos; transform.position = p; },
+			await Tween( transform.anchoredPosition.x, to, duration, (newPos)=>{ var p = transform.anchoredPosition; p.x = newPos; transform.anchoredPosition = p; },
 												type, getCT(transform,ct), complete, repeat, delay, pingPong );
 		}
 		public static async UniTask AnchorYTo(this RectTransform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
 		{
-			await Tween( transform.anchoredPosition.y, to, duration, (newPos)=>{ var p = transform.position; p.y = newPos; transform.position = p; },
+			await Tween( transform.anchoredPosition.y, to, duration, (newPos)=>{ var p = transform.anchoredPosition; p.y = newPos; transform.anchoredPosition = p; },
 												type, getCT(transform,ct), complete, repeat, delay, pingPong );
 		}
 
@@ -440,7 +440,7 @@ namespace PegC.Util
 		public static async UniTask AnchorXYTo(this RectTransform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
 		{
-			await Tween( (Vector2)transform.anchoredPosition, to, duration, (newPos)=>{ var p = transform.position; p.x = newPos.x; p.y = newPos.y; transform.position = p; },
+			await Tween( (Vector2)transform.anchoredPosition, to, duration, (newPos)=>{ var p = transform.anchoredPosition; p.x = newPos.x; p.y = newPos.y; transform.anchoredPosition = p; },
 												type, getCT(transform,ct), complete, repeat, delay, pingPong );
 		}
 		public static async UniTask AnchorXYOffset(this RectTransform transform, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
