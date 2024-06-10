@@ -5,7 +5,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using TMPro;
 using PegC.Util.ValueSetter;
-using System;
+using UnityEngine.PlayerLoop;
 
 namespace PegC.Util
 {
@@ -155,16 +155,7 @@ namespace PegC.Util
 			void ReverseUpdate(float t);
 		}
 
-		struct ValueSetter<S,T>{
-			public S updateSrc;
-			public ValueSetter( S src )
-			{
-				updateSrc = src;
-			}
-			public void UpdateFunction(T value){}
-		}
-
-		struct UpdaterParamNew<S,T> where S : Component where T: struct {
+		struct UpdaterParamNew<S,T> where S: Component where T: struct {
 			public T from;
 			public T to;
 			public ComponentUpdater<S,T> updater;
@@ -238,6 +229,7 @@ namespace PegC.Util
 					var t = 0f;
 					while ( t <= 1f )
 					{
+						ct.ThrowIfCancellationRequested();
 						t += Time.deltaTime * invDuration;
 						updater.Update(Mathf.Clamp01(t));
 						await UniTask.NextFrame(cancellationToken:ct);
@@ -245,10 +237,12 @@ namespace PegC.Util
 
 					if ( pingPong )
 					{
+						ct.ThrowIfCancellationRequested();
 						if (delay > 0f) await UniTask.WaitForSeconds(delay,cancellationToken:ct);
 						t = 0f;
 						while ( t <= 1f )
 						{
+							ct.ThrowIfCancellationRequested();
 							t += Time.deltaTime * invDuration;
 							updater.ReverseUpdate(Mathf.Clamp01(t));
 							await UniTask.NextFrame(cancellationToken:ct);
@@ -261,7 +255,55 @@ namespace PegC.Util
 				// 有限回ならこちらにくる.
 				if ( !isInfinite ) complete?.Invoke(true);
 			}
-			catch (System.Exception e)
+			catch
+			{
+				throw;
+			}
+		}
+
+		static async UniTask tweenBase<S,T>(UpdaterParamNew<S,T> updater, float duration, CancellationToken ct,
+												System.Action<bool> complete=null,int repeat=0, float delay=0, bool pingPong=false) where S:Component where T: struct
+		{
+			var counter = repeat+1;
+			var isInfinite = repeat < 0;
+			var invDuration = 1.0f;
+			if ( duration > 0.0f ) invDuration = 1.0f/duration;
+			try
+			{
+				while ( isInfinite || counter > 0 )
+				{
+					ct.ThrowIfCancellationRequested();
+					if (delay > 0f) await UniTask.WaitForSeconds(delay,cancellationToken:ct);
+					var t = 0f;
+					while ( t <= 1f )
+					{
+						ct.ThrowIfCancellationRequested();
+						t += Time.deltaTime * invDuration;
+						//updater.Update(Mathf.Clamp01(t));
+						await UniTask.NextFrame(cancellationToken:ct);
+					}
+
+					if ( pingPong )
+					{
+						ct.ThrowIfCancellationRequested();
+						if (delay > 0f) await UniTask.WaitForSeconds(delay,cancellationToken:ct);
+						t = 0f;
+						while ( t <= 1f )
+						{
+							ct.ThrowIfCancellationRequested();
+							t += Time.deltaTime * invDuration;
+							//updater.ReverseUpdate(Mathf.Clamp01(t));
+							await UniTask.NextFrame(cancellationToken:ct);
+						}
+					}
+					if ( !isInfinite ) counter--;
+
+					if ( isInfinite ) complete?.Invoke(false);
+				}
+				// 有限回ならこちらにくる.
+				if ( !isInfinite ) complete?.Invoke(true);
+			}
+			catch
 			{
 				throw;
 			}
@@ -1168,6 +1210,41 @@ namespace PegC.Util
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
 
+		// 特殊化Tween
+		public static async UniTask Tween<S,T>(S component,float from, float to, float duration, System.Action<float> update, EaseType type=EaseType.Default, CancellationToken ct=default,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where S:Component  where T:struct
+		{
+			if ( type == EaseType.Default ) type = DefaultEasing;
+			var func = Types[type];
+			var updater = new FloatUpdater(from,to,func,update);
+			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask Tween<S,T>(S component, Vector2 from, Vector2 to, float duration, System.Action<Vector2> update, EaseType type=EaseType.Default, CancellationToken ct=default,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where S:Component  where T:struct
+		{
+			if ( type == EaseType.Default ) type = DefaultEasing;
+			var func = Types[type];
+			var updater = new Vector2Updater(from,to,func,update);
+			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
+		}
+		public static async UniTask Tween<S,T>(S component,Vector3 from, Vector3 to, float duration, System.Action<Vector3> update, EaseType type=EaseType.Default, CancellationToken ct=default,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where S:Component  where T:struct
+		{
+			if ( type == EaseType.Default ) type = DefaultEasing;
+			var func = Types[type];
+			var updater = new Vector3Updater(from,to,func,update);
+			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
+		}
+
+		public static async UniTask Tween<S,T>(S component, Vector4 from, Vector4 to, float duration, System.Action<Vector4> update, EaseType type=EaseType.Default, CancellationToken ct=default,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where S:Component  where T:struct
+		{
+			if ( type == EaseType.Default ) type = DefaultEasing;
+			var func = Types[type];
+			var updater = new Vector4Updater(from,to,func,update);
+			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
+		}
 
 		// 汎用ジェネリクス版
 		public static async UniTask Tween<T>(float from, float to, float duration, System.Action<float> update, CancellationToken ct=default,
@@ -1216,6 +1293,7 @@ namespace PegC.Util
 			public static EaseType Type = DefaultEasing;
 			public virtual float Time(float time){return time;}
 			public virtual float Op(float from,float to, float time){ return Mathf.Lerp(from, to, Time(time)); }
+			public virtual Vector1 Op(Vector1 from,Vector1 to, float time){ return (Vector1)Mathf.Lerp(from.x, to.x, Time(time)); }
 			public virtual Vector2 Op(Vector2 from,Vector2 to, float time){ return Vector2.Lerp(from,to,Time(time));}
 			public virtual Vector3 Op(Vector3 from,Vector3 to, float time){ return Vector3.Lerp(from,to,Time(time));}
 			public virtual Vector4 Op(Vector4 from,Vector4 to, float time){ return Vector4.Lerp(from,to,Time(time));}
@@ -1422,6 +1500,7 @@ namespace PegC.Util
 			const float s = 1.70158f;
 			public override float Time(float time) => time * time * ((s + 1f) * time - s);
 			public override float Op(float from,float to, float time){ to -= from; return to * Time(time) + from; }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return to*Time(time) + from;}
@@ -1435,6 +1514,7 @@ namespace PegC.Util
 			const float s = 1.70158f;
 			public override float Time(float time) => --time * time * ((s + 1f) * time + s) + 1f;
 			public override float Op(float from,float to, float time){ to -= from; return to * Time(time) + from; }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return to*Time(time) + from;}
@@ -1452,6 +1532,7 @@ namespace PegC.Util
 				return .5f * ((time -= 2) * time * ((s + 1f) * time  + s) + 2f);
 			}
 			public override float Op(float from,float to, float time){ to -= from; return to * Time(time) + from; }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return to*Time(time) + from;}
@@ -1466,6 +1547,7 @@ namespace PegC.Util
 			const float s = p / 4f;
 			public override float Time(float time) => -(Mathf.Pow(2f, 10f * (time -= 1f)) * Mathf.Sin((time - s) * DoublePi / p));
 			public override float Op(float from,float to, float time){ to -= from; return to * Time(time) + from; }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return to*Time(time) + from;}
@@ -1480,6 +1562,7 @@ namespace PegC.Util
 			const float s = p / 4f;
 			public override float Time(float time) => Mathf.Pow(2f, -10f * time) * Mathf.Sin((time - s) * DoublePi / p);
 			public override float Op(float from,float to, float time){ to -= from; return to * Time(time) + to + from; }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return to*Time(time) + to + from;}
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to*Time(time) + to + from;}
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return to*Time(time) + to + from;}
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return to*Time(time) + to + from;}
@@ -1498,6 +1581,7 @@ namespace PegC.Util
 				return (Mathf.Pow(2f, -10f * (time -= 1f)) * Mathf.Sin((time - s) * DoublePi / p)) * 1.5f;
 			}
 			public override float Op(float from,float to, float time){ to -= from; return to * Time(time) + from; }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return to*Time(time) + from;}
@@ -1511,6 +1595,7 @@ namespace PegC.Util
 			static CalcBounceOut bout = new CalcBounceOut();
 			public override float Time(float time) => 1f - time;
 			public override float Op(float from,float to, float time){ to -= from; return to - bout.Op(0f, to, Time(time)) + from; }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return to - bout.Op(Vector1.zero, to, Time(time)) + from; }
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to - bout.Op(Vector2.zero, to, Time(time)) + from; }
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return to - bout.Op(Vector3.zero, to, Time(time)) + from; }
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return to - bout.Op(Vector4.zero, to, Time(time)) + from; }
@@ -1531,6 +1616,7 @@ namespace PegC.Util
 				return (7.5625f * (time -= (2.625f / 2.75f)) * time + .984375f);
 			}
 			public override float Op(float from,float to, float time){ to -= from; return to * Time(time) + from; }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return to*Time(time) + from;}
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return to*Time(time) + from;}
@@ -1545,6 +1631,7 @@ namespace PegC.Util
 			static CalcBounceOut bout = new CalcBounceOut();
 			public override float Time(float time) => time < .5f?(time * 2f):(time*2f-1f);
 			public override float Op(float from,float to, float time){ to -= from; return time < .5f?(bin.Op(0f, to, Time(time))*.5f+from):(bout.Op(0f, to, Time(time)) * .5f + to * .5f + from); }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ to -= from; return time < .5f?(bin.Op(Vector1.zero, to, Time(time))*.5f+from):(bout.Op(Vector1.zero, to, Time(time)) * .5f + to * .5f + from); }
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return time < .5f?(bin.Op(Vector2.zero, to, Time(time))*.5f+from):(bout.Op(Vector2.zero, to, Time(time)) * .5f + to * .5f + from); }
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ to -= from; return time < .5f?(bin.Op(Vector3.zero, to, Time(time))*.5f+from):(bout.Op(Vector3.zero, to, Time(time)) * .5f + to * .5f + from); }
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ to -= from; return time < .5f?(bin.Op(Vector4.zero, to, Time(time))*.5f+from):(bout.Op(Vector4.zero, to, Time(time)) * .5f + to * .5f + from); }
@@ -1561,6 +1648,7 @@ namespace PegC.Util
 				return time;
 			}
 			public override float Op(float from,float to, float time){ return from + (to - from) * Time(time); }
+			public override Vector1 Op(Vector1 from,Vector1 to, float time){ return from + (to - from) * Time(time); }
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ return from + (to - from) * Time(time); }
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ return from + (to - from) * Time(time); }
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ return from + (to - from) * Time(time); }
