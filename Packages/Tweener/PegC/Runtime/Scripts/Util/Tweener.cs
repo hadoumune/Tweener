@@ -22,6 +22,7 @@ namespace PegC.Util
 		ElasticIn, ElasticOut, ElasticInOut,
 		BounceIn, BounceOut, BounceInOut,
 		Spring,
+		Custom,
 		Default,
 	}
 
@@ -61,6 +62,7 @@ namespace PegC.Util
 	public struct BounceOut:IEaseTypeHint{public EaseType FuncType()=>EaseType.BounceOut;}
 	public struct BounceInOut:IEaseTypeHint{public EaseType FuncType()=>EaseType.BounceInOut;}
 	public struct Spring:IEaseTypeHint{public EaseType FuncType()=>EaseType.Spring;}
+	public struct Custom:IEaseTypeHint{public EaseType FuncType()=>EaseType.Custom;}
 	public struct Default:IEaseTypeHint{public EaseType FuncType()=>Tweener.DefaultEasing;}
 
 	public static class Tweener
@@ -225,447 +227,447 @@ namespace PegC.Util
 
 		// Transform
 		public static async UniTask XTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.position.x, to, duration, (newPos)=>{ var p = transform.position; p.x = newPos; transform.position = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask YTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.position.y, to, duration, (newPos)=>{ var p = transform.position; p.y = newPos; transform.position = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask ZTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.position.z, to, duration, (newPos)=>{ var p = transform.position; p.z = newPos; transform.position = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask XOffset(this Transform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.XTo( transform.position.x+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.XTo( transform.position.x+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 		public static async UniTask YOffset(this Transform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.YTo( transform.position.y+offset,duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.YTo( transform.position.y+offset,duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 		public static async UniTask ZOffset(this Transform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.ZTo( transform.position.z+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.ZTo( transform.position.z+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
 		public static async UniTask LocalXTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localPosition.x, to, duration, (newPos)=>{ var p = transform.localPosition; p.x = newPos; transform.localPosition = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask LocalYTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localPosition.y, to, duration, (newPos)=>{ var p = transform.localPosition; p.y = newPos; transform.localPosition = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask LocalZTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localPosition.z, to, duration, (newPos)=>{ var p = transform.localPosition; p.z = newPos; transform.localPosition = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask LocalXOffset(this Transform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.LocalXTo( transform.localPosition.x+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.LocalXTo( transform.localPosition.x+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 		public static async UniTask LocalYOffset(this Transform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.LocalYTo( transform.localPosition.y+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.LocalYTo( transform.localPosition.y+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 		public static async UniTask LocalZOffset(this Transform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.LocalZTo( transform.localPosition.z+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.LocalZTo( transform.localPosition.z+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
 		public static async UniTask XYTo(this Transform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( (Vector2)transform.position, to, duration, (newPos)=>{ var p = transform.position; p.x = newPos.x; p.y = newPos.y; transform.position = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask XYOffset(this Transform transform, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.XYTo( (Vector2)transform.position+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.XYTo( (Vector2)transform.position+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
 		public static async UniTask LocalXYTo(this Transform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( (Vector2)transform.localPosition, to, duration, (newPos)=>{ var p = transform.localPosition; p.x = newPos.x; p.y = newPos.y; transform.localPosition = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask LocalXYOffset(this Transform transform, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 
-			await transform.LocalXYTo( (Vector2)transform.localPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.LocalXYTo( (Vector2)transform.localPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
 		public static async UniTask XYZTo(this Transform transform, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.position, to, duration, (newPos)=>{ transform.position = newPos; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask XYZOffset(this Transform transform, Vector3 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.XYZTo( transform.localPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.XYZTo( transform.localPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 		public static async UniTask LocalXYZTo(this Transform transform, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localPosition, to, duration, (newPos)=>{ transform.localPosition = newPos; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask LocalXYZOffset(this Transform transform, Vector3 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.LocalXYZTo( transform.localPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.LocalXYZTo( transform.localPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
 		public static async UniTask LocalRotXTo(this Transform transform, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localEulerAngles.x, toAngle, duration, (newPos)=>{ var p = transform.localEulerAngles; p.x = newPos; transform.localEulerAngles = p;},
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask LocalRotYTo(this Transform transform, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localEulerAngles.y, toAngle, duration, (newPos)=>{ var p = transform.localEulerAngles; p.y = newPos; transform.localEulerAngles = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask LocalRotZTo(this Transform transform, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localEulerAngles.z, toAngle, duration, (newPos)=>{ var p = transform.localEulerAngles; p.z = newPos; transform.localEulerAngles = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask RotXTo(this Transform transform, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.eulerAngles.x, toAngle, duration, (newPos)=>{ var p = transform.eulerAngles; p.x = newPos; transform.eulerAngles = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask RotYTo(this Transform transform, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.eulerAngles.y, toAngle, duration, (newPos)=>{ var p = transform.eulerAngles; p.y = newPos; transform.eulerAngles = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask RotZTo(this Transform transform, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.eulerAngles.z, toAngle, duration, (newPos)=>{ var p = transform.eulerAngles; p.z = newPos; transform.eulerAngles = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ScaleXTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localScale.x, to, duration, (newPos)=>{ var p = transform.localScale; p.x = newPos; transform.localScale = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask ScaleYTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localScale.y, to, duration, (newPos)=>{ var p = transform.localScale; p.y = newPos; transform.localScale = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask ScaleZTo(this Transform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localScale.z, to, duration, (newPos)=>{ var p = transform.localScale; p.z = newPos; transform.localScale = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ScaleXYTo(this Transform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( (Vector2)transform.localScale, to, duration, (newPos)=>{ var p = transform.localScale; p.x = newPos.x; p.y = newPos.y; transform.localScale = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ScaleXYZTo(this Transform transform, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.localScale, to, duration, (newPos)=>{ transform.localScale = newPos; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		// RectTransform
 		public static async UniTask AnchorXTo(this RectTransform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.anchoredPosition.x, to, duration, (newPos)=>{ var p = transform.anchoredPosition; p.x = newPos; transform.anchoredPosition = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask AnchorYTo(this RectTransform transform, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( transform.anchoredPosition.y, to, duration, (newPos)=>{ var p = transform.anchoredPosition; p.y = newPos; transform.anchoredPosition = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask AnchorXOffset(this RectTransform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.XTo( transform.anchoredPosition.x+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.XTo( transform.anchoredPosition.x+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 		public static async UniTask AnchorYOffset(this RectTransform transform, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.YTo( transform.anchoredPosition.y+offset,duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.YTo( transform.anchoredPosition.y+offset,duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
 		public static async UniTask AnchorXYTo(this RectTransform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( (Vector2)transform.anchoredPosition, to, duration, (newPos)=>{ var p = transform.anchoredPosition; p.x = newPos.x; p.y = newPos.y; transform.anchoredPosition = p; },
-												type, getCT(transform,ct), complete, repeat, delay, pingPong );
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask AnchorXYOffset(this RectTransform transform, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
-			await transform.XYTo( (Vector2)transform.anchoredPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong);
+			await transform.XYTo( (Vector2)transform.anchoredPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
 		// GameObject
 		public static async UniTask XTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.XTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.XTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask YTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.YTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.YTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ZTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.ZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.ZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XOffset(this GameObject fromObj, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.XOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.XOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask YOffset(this GameObject fromObj, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.YOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.YOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ZOffset(this GameObject fromObj, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.ZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.ZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalXTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalXTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalYTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalZTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXOffset(this GameObject fromObj, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalXOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalXOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalYOffset(this GameObject fromObj, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalYOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalYOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalZOffset(this GameObject fromObj, float offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XYTo(this GameObject fromObj, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.XYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.XYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XYOffset(this GameObject fromObj, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.XYOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.XYOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXYTo(this GameObject fromObj, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalXYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalXYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXYOffset(this GameObject fromObj, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalXYOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalXYOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XYZTo(this GameObject fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.XYZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.XYZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XYZOffset(this GameObject fromObj, Vector3 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.XYZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.XYZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXYZTo(this GameObject fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalXYZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalXYZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXYZOffset(this GameObject fromObj, Vector3 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalXYZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalXYZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 
 		public static async UniTask RotXTo(this GameObject fromObj, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.RotXTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.RotXTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask RotYTo(this GameObject fromObj, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.RotYTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.RotYTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask RotZTo(this GameObject fromObj, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.RotZTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.RotZTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 
 		public static async UniTask LocalRotXTo(this GameObject fromObj, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalRotXTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalRotXTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalRotYTo(this GameObject fromObj, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalRotYTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalRotYTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalRotZTo(this GameObject fromObj, float toAngle,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.LocalRotZTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalRotZTo( toAngle, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 
 		public static async UniTask ScaleXTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.ScaleXTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.ScaleXTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ScaleYTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.ScaleYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.ScaleYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ScaleZTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.ScaleZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.ScaleZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ScaleXYTo(this GameObject fromObj, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.ScaleXYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.ScaleXYTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ScaleXYZTo(this GameObject fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
-												=> await fromObj.transform.ScaleXYZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.ScaleXYZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
 
 		// SpriteRenderer
 		public static async UniTask SizeTo(this SpriteRenderer fromObj, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( (Vector2)fromObj.size, to, duration, (newPos)=>{ fromObj.size = newPos; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask AlphaTo(this Renderer fromObj, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( fromObj.material.color.a, to, duration, (newPos)=>{ var col = fromObj.material.color; col.a = newPos; fromObj.material.color = col; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask AlphaTo(this Renderer fromObj, float from, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			var col = fromObj.material.color;
 			col.a = from;
 			fromObj.material.color = col;
 			await Tween( from, to, duration, (newPos)=>{ var col = fromObj.material.color; col.a = newPos; fromObj.material.color = col; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask AlphaTo(this Graphic fromObj, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 
 			await Tween( fromObj.color.a, to, duration, (newPos)=>{ var col = fromObj.color; col.a = newPos; fromObj.color = col; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask AlphaTo(this Graphic fromObj,float from, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			var col = fromObj.color;
 			col.a = from;
 			fromObj.color = col;
 			await Tween( fromObj.color.a, to, duration, (newPos)=>{ var col = fromObj.color; col.a = newPos; fromObj.color = col; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask AlphaTo(this Material fromObj, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( fromObj.color.a, to, duration, (newPos)=>{ var col = fromObj.color; col.a = newPos; fromObj.color = col; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask AlphaTo(this Material fromObj, float from,float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			var col = fromObj.color;
 			col.a = from;
 			fromObj.color = col;
 			await Tween( fromObj.color.a, to, duration, (newPos)=>{ var col = fromObj.color; col.a = newPos; fromObj.color = col; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ColorTo(this Renderer fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 
 			await Tween( fromObj.material.color, to, duration,
 								(newPos)=>{ fromObj.material.color = new Color(newPos.x,newPos.y,newPos.z,fromObj.material.color.a);  },
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ColorTo(this Graphic fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( fromObj.color, to, duration,
 								(newPos)=>{ fromObj.color = new Color(newPos.x,newPos.y,newPos.z,fromObj.color.a);  },
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ColorTo(this SpriteRenderer fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 
 			await Tween( fromObj.color, to, duration,
 								(newPos)=>{ fromObj.color = newPos; },
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ColorTo(this Renderer fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 
 			await Tween( fromObj.material.color, to, duration,
 								(newPos)=>{ fromObj.material.color = newPos; },
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ColorTo(this Graphic fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( fromObj.color, to, duration,
 								(newPos)=>{ fromObj.color = newPos; },
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask ColorTo(this Material fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			await Tween( fromObj.color, to, duration,
 								(newPos)=>{ fromObj.color = newPos; },
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask ColorTo(this Material fromObj, Color from,Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			fromObj.color = from;
 			await Tween( fromObj.color, to, duration,
 								(newPos)=>{ fromObj.color = newPos; },
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask HSVTo(this Renderer fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			Vector3 hsv = Vector3.zero;
 			Color.RGBToHSV(fromObj.material.color,out hsv.x, out hsv.y, out hsv.z );
@@ -675,11 +677,11 @@ namespace PegC.Util
 									newCol.a = fromObj.material.color.a;
 									fromObj.material.color = newCol;
 								},
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask HSVTo(this Graphic fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			Vector3 hsv = Vector3.zero;
 			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
@@ -689,11 +691,11 @@ namespace PegC.Util
 									newCol.a = fromObj.material.color.a;
 									fromObj.color = newCol;
 								},
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask HSVTo(this SpriteRenderer fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			Vector4 hsv = Vector4.zero;
 			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
@@ -704,11 +706,11 @@ namespace PegC.Util
 									newCol.a = newPos.w;
 									fromObj.color = newCol;
 								},
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask HSVTo(this Renderer fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			Vector4 hsv = Vector4.zero;
 			Color.RGBToHSV(fromObj.material.color,out hsv.x, out hsv.y, out hsv.z );
@@ -719,11 +721,11 @@ namespace PegC.Util
 									newCol.a = newPos.w;
 									fromObj.material.color = newCol;
 								},
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask HSVTo(this Graphic fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			Vector4 hsv = Vector4.zero;
 			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
@@ -734,11 +736,11 @@ namespace PegC.Util
 									newCol.a = newPos.w;
 									fromObj.color = newCol;
 								},
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask HSVTo(this Material fromObj, Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			Vector4 hsv = Vector4.zero;
 			Color.RGBToHSV(fromObj.color,out hsv.x, out hsv.y, out hsv.z );
@@ -749,10 +751,10 @@ namespace PegC.Util
 									newCol.a = newPos.w;
 									fromObj.color = newCol;
 								},
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 		public static async UniTask HSVTo(this Material fromObj, Color from,Color to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			fromObj.color = from;
 			Vector4 hsv = Vector4.zero;
@@ -764,335 +766,339 @@ namespace PegC.Util
 									newCol.a = newPos.w;
 									fromObj.color = newCol;
 								},
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask AlphaTo(this CanvasGroup fromObj, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 
 			await Tween( fromObj.alpha, to, duration, (newPos)=>{ var col = fromObj.alpha = newPos; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask AlphaTo(this CanvasGroup fromObj,float from, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			fromObj.alpha = from;
 			await Tween( fromObj.alpha, to, duration, (newPos)=>{ var col = fromObj.alpha = newPos; },
-												type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 		public static async UniTask TextSend(this TMP_Text fromObj, int fromIndex, int toIndex, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			var len = fromObj.text.Length; // @todo:本当はGetParsedTextを使いたいが1フレ待つ必要があるためLengthにする.
 			fromIndex = Mathf.Clamp(fromIndex,0,len);
 			toIndex = Mathf.Clamp(toIndex+1,0,len+1); // 最後の1文字がintだと頭しか表示されないので+1する.
 			await Tween( (float)fromIndex, (float)toIndex, duration,
 								(newPos)=>{ fromObj.maxVisibleCharacters = (int)Mathf.Clamp(newPos,0,len); },
-								type, getCT(fromObj,ct), complete, repeat, delay, pingPong );
+								type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
 
 		// ジェネリクス版
 	#region UseGenericsEasing
 		public static async UniTask XTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.XTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.XTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask YTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.YTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.YTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ZTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.ZTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.ZTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask XOffset<T>(this Transform transform, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.XOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.XOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask YOffset<T>(this Transform transform, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.YOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.YOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ZOffset<T>(this Transform transform, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.ZOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.ZOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask LocalXTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalXTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalXTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalYTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalYTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalYTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalZTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalZTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalZTo( to,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalXOffset<T>(this Transform transform, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalXOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalXOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalYOffset<T>(this Transform transform, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalYOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalYOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalZOffset<T>(this Transform transform, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalZOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalZOffset( offset,  duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask XYTo<T>(this Transform transform, Vector2 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.XYTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.XYTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask XYOffset<T>(this Transform transform, Vector2 offset, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.XYOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.XYOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask LocalXYTo<T>(this Transform transform, Vector2 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalXYTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalXYTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalXYOffset<T>(this Transform transform, Vector2 offset, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalXYOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalXYOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask XYZTo<T>(this Transform transform, Vector3 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.XYZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.XYZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask XYZOffset<T>(this Transform transform, Vector3 offset, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.XYZOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.XYZOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalXYZTo<T>(this Transform transform, Vector3 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalXYZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalXYZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask LocalXYZOffset<T>(this Transform transform, Vector3 offset, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalXYZOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalXYZOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask LocalRotXTo<T>(this Transform transform, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalRotXTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalRotXTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalRotYTo<T>(this Transform transform, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalRotYTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalRotYTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask LocalRotZTo<T>(this Transform transform, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.LocalRotZTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalRotZTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask RotXTo<T>(this Transform transform, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.RotXTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.RotXTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask RotYTo<T>(this Transform transform, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.RotYTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.RotYTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask RotZTo<T>(this Transform transform, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.RotZTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.RotZTo( toAngle, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask ScaleXTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.ScaleXTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.ScaleXTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ScaleYTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.ScaleYTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.ScaleYTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ScaleZTo<T>(this Transform transform, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.ScaleZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.ScaleZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask ScaleXYTo<T>(this Transform transform, Vector2 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.ScaleXYTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.ScaleXYTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ScaleXYZTo<T>(this Transform transform, Vector3 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await transform.ScaleXYZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.ScaleXYZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 
 		// GameObject
 		public static async UniTask XTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.XTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.XTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask YTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.YTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.YTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ZTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.ZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.ZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XOffset<T>(this GameObject fromObj, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.XOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.XOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask YOffset<T>(this GameObject fromObj, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.YOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.YOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ZOffset<T>(this GameObject fromObj, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.ZOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.ZOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalXTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalXTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalYTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalZTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXOffset<T>(this GameObject fromObj, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalXOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalXOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalYOffset<T>(this GameObject fromObj, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalYOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalYOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalZOffset<T>(this GameObject fromObj, float offset,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalZOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalZOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XYTo<T>(this GameObject fromObj, Vector2 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.XYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.XYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XYOffset<T>(this GameObject fromObj, Vector2 offset, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.XYOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.XYOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXYTo<T>(this GameObject fromObj, Vector2 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalXYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalXYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXYOffset<T>(this GameObject fromObj, Vector2 offset, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalXYOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalXYOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XYZTo<T>(this GameObject fromObj, Vector3 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.XYZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.XYZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask XYZOffset<T>(this GameObject fromObj, Vector3 offset, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.XYZOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.XYZOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXYZTo<T>(this GameObject fromObj, Vector3 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalXYZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalXYZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalXYZOffset<T>(this GameObject fromObj, Vector3 offset, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalXYZOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalXYZOffset( offset, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 
 		public static async UniTask RotXTo<T>(this GameObject fromObj, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.RotXTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.RotXTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask RotYTo<T>(this GameObject fromObj, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.RotYTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.RotYTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask RotZTo<T>(this GameObject fromObj, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.RotZTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.RotZTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 
 		public static async UniTask LocalRotXTo<T>(this GameObject fromObj, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalRotXTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalRotXTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalRotYTo<T>(this GameObject fromObj, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalRotYTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalRotYTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask LocalRotZTo<T>(this GameObject fromObj, float toAngle,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.LocalRotZTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.LocalRotZTo( toAngle, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 
 		public static async UniTask ScaleXTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.ScaleXTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.ScaleXTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ScaleYTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.ScaleYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.ScaleYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ScaleZTo<T>(this GameObject fromObj, float to,  float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.ScaleZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.ScaleZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ScaleXYTo<T>(this GameObject fromObj, Vector2 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.ScaleXYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.ScaleXYTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 		public static async UniTask ScaleXYZTo<T>(this GameObject fromObj, Vector3 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()
-												=> await fromObj.transform.ScaleXYZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()
+												=> await fromObj.transform.ScaleXYZTo( to, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 
 		// SpriteRenderer
 		public static async UniTask SizeTo<T>(this SpriteRenderer fromObj, Vector2 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.SizeTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.SizeTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask AlphaTo<T>(this Renderer fromObj, float to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.AlphaTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.AlphaTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask AlphaTo<T>(this Renderer fromObj, float from, float to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.AlphaTo( from, to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.AlphaTo( from, to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask AlphaTo<T>(this Graphic fromObj, float to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.AlphaTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.AlphaTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask AlphaTo<T>(this Graphic fromObj,float from, float to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.AlphaTo( from,to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.AlphaTo( from,to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask AlphaTo<T>(this Material fromObj, float to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.AlphaTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.AlphaTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask AlphaTo<T>(this Material fromObj, float from,float to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.AlphaTo( from, to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.AlphaTo( from, to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask ColorTo<T>(this Renderer fromObj, Vector3 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ColorTo<T>(this Graphic fromObj, Vector3 to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ColorTo<T>(this SpriteRenderer fromObj, Color to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask ColorTo<T>(this Renderer fromObj, Color to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ColorTo<T>(this Graphic fromObj, Color to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ColorTo<T>(this Material fromObj, Color to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.ColorTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 		public static async UniTask ColorTo<T>(this Material fromObj, Color from,Color to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.ColorTo( from, to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.ColorTo( from, to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask AlphaTo<T>(this CanvasGroup fromObj, float to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.AlphaTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.AlphaTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask AlphaTo<T>(this CanvasGroup fromObj,float from, float to, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.AlphaTo( from,to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.AlphaTo( from,to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
 
 		public static async UniTask TextSend<T>(this TMP_Text fromObj, int fromIndex, int toIndex, float duration, CancellationToken? ct=null,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T: IEaseTypeHint,new()=>
-					await fromObj.TextSend( fromIndex, toIndex, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong);
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await fromObj.TextSend( fromIndex, toIndex, duration,new T().FuncType(), ct, complete, repeat, delay, pingPong, customFunc);
 	#endregion UseGenericsEasing
 
 	#region Tween
 		// 汎用Tween
 		public static async UniTask Tween(float from, float to, float duration, System.Action<float> update, EaseType type=EaseType.Default, CancellationToken ct=default,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			if ( type == EaseType.Default ) type = DefaultEasing;
-			var func = Types[type];
+			var func = (type == EaseType.Custom)?customFunc:Types[type];
+			if ( func == null ) return;
 			var updater = new FloatUpdater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
 
 		public static async UniTask Tween(Vector2 from, Vector2 to, float duration, System.Action<Vector2> update, EaseType type=EaseType.Default, CancellationToken ct=default,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			if ( type == EaseType.Default ) type = DefaultEasing;
-			var func = Types[type];
+			var func = (type == EaseType.Custom)?customFunc:Types[type];
+			if ( func == null ) return;
 			var updater = new Vector2Updater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
 		public static async UniTask Tween(Vector3 from, Vector3 to, float duration, System.Action<Vector3> update, EaseType type=EaseType.Default, CancellationToken ct=default,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			if ( type == EaseType.Default ) type = DefaultEasing;
-			var func = Types[type];
+			var func = (type == EaseType.Custom)?customFunc:Types[type];
+			if ( func == null ) return;
 			var updater = new Vector3Updater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
 
 		public static async UniTask Tween(Vector4 from, Vector4 to, float duration, System.Action<Vector4> update, EaseType type=EaseType.Default, CancellationToken ct=default,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false)
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			if ( type == EaseType.Default ) type = DefaultEasing;
-			var func = Types[type];
+			var func = (type == EaseType.Custom)?customFunc:Types[type];
+			if ( func == null ) return;
 			var updater = new Vector4Updater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
@@ -1100,36 +1106,36 @@ namespace PegC.Util
 
 		// 汎用ジェネリクス版
 		public static async UniTask Tween<T>(float from, float to, float duration, System.Action<float> update, CancellationToken ct=default,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T : IEaseTypeHint,new()
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T : IEaseTypeHint,new()
 		{
 			var types = new T();
-			var func = Types[types.FuncType()];
+			var func = (types.FuncType() == EaseType.Custom)?customFunc:Types[types.FuncType()];
 			var updater = new FloatUpdater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
 
 		public static async UniTask Tween<T>(Vector2 from, Vector2 to, float duration, System.Action<Vector2> update, CancellationToken ct=default,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T : IEaseTypeHint,new()
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T : IEaseTypeHint,new()
 		{
 			var types = new T();
-			var func = Types[types.FuncType()];
+			var func = (types.FuncType() == EaseType.Custom)?customFunc:Types[types.FuncType()];
 			var updater = new Vector2Updater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
 		public static async UniTask Tween<T>(Vector3 from, Vector3 to, float duration, System.Action<Vector3> update, CancellationToken ct=default,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T : IEaseTypeHint,new()
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T : IEaseTypeHint,new()
 		{
 			var types = new T();
-			var func = Types[types.FuncType()];
+			var func = (types.FuncType() == EaseType.Custom)?customFunc:Types[types.FuncType()];
 			var updater = new Vector3Updater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
 
 		public static async UniTask Tween<T>(Vector4 from, Vector4 to, float duration, System.Action<Vector4> update, CancellationToken ct=default,
-												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false) where T : IEaseTypeHint,new()
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T : IEaseTypeHint,new()
 		{
 			var types = new T();
-			var func = Types[types.FuncType()];
+			var func = (types.FuncType() == EaseType.Custom)?customFunc:Types[types.FuncType()];
 			var updater = new Vector4Updater(from,to,func,update);
 			await tweenBase( updater, duration, ct, complete, repeat, delay, pingPong );
 		}
@@ -1140,7 +1146,7 @@ namespace PegC.Util
 		private const float HalfPi = Mathf.PI * .5f;
 		private const float DoublePi = Mathf.PI * 2f;
 
-		class Interporate
+		public class Interporate
 		{
 			public static EaseType Type = DefaultEasing;
 			public virtual float Time(float time){return time;}
@@ -1430,6 +1436,8 @@ namespace PegC.Util
 			public override Vector3 Op(Vector3 from,Vector3 to, float time){ return from + (to - from) * Time(time); }
 			public override Vector4 Op(Vector4 from,Vector4 to, float time){ return from + (to - from) * Time(time); }
 		}
+
+
 	#endregion Interporate
 	}
 }
