@@ -133,7 +133,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease (3)
+      value: EaseQuadIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -358,7 +362,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease (6)
+      value: EaseCubicIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -423,7 +431,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease (7)
+      value: EaseCubicOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -488,7 +500,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease (2)
+      value: EaseSineInOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -553,7 +569,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease (8)
+      value: EaseCubictInOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -658,7 +678,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease (4)
+      value: EaseQuadOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -723,7 +747,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease (5)
+      value: EaseQuadInOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -793,7 +821,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease (1)
+      value: EaseSineOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -952,7 +984,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2168452826929439163, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_Name
-      value: Ease
+      value: EaseSineIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2674543533351653837, guid: 3a7ac385768315b41989c296043d024e, type: 3}
+      propertyPath: easeType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5406638077190470346, guid: 3a7ac385768315b41989c296043d024e, type: 3}
       propertyPath: m_LocalPosition.x
