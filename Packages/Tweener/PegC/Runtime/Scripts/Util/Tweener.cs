@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using System.Threading;
 using TMPro;
 using PegC.Util.ValueSetter;
+using System;
 
 namespace PegC.Util
 {
@@ -1158,42 +1159,56 @@ namespace PegC.Util
 
 		// Lerp
 		class CalcLerp : Interporate {
+			static CalcLerp _instance = null;
+			public static CalcLerp instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.Linear;
 			public override float Time(float time) => time;
 		}
 
 		// SineIn
 		class CalcSineIn : Interporate{
+			static CalcSineIn _instance = null;
+			public static CalcSineIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.SineIn;
 			public override float Time(float time) => 1f - Mathf.Cos(time * HalfPi); 
 		}
 
 		// SineOut
 		class CalcSineOut : Interporate{
+			static CalcSineOut _instance = null;
+			public static CalcSineOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.SineOut;
 			public override float Time(float time) => Mathf.Sin(time * HalfPi);
 		}
 
 		// SineInOut
 		class CalcSineInOut : Interporate{
+			static CalcSineInOut _instance = null;
+			public static CalcSineInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.SineInOut;
 			public override float Time(float time) => .5f * (1f - Mathf.Cos(Mathf.PI * time));
 		}
 
 		// QuadIn
 		class CalcQuadIn : Interporate{
+			static CalcQuadIn _instance = null;
+			public static CalcQuadIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuadIn;
 			public override float Time(float time) => time * time;
 		}
 
 		// QuadOut
 		class CalcQuadOut : Interporate{
+			static CalcQuadOut _instance = null;
+			public static CalcQuadOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuadOut;
 			public override float Time(float time) => -time * (time - 2f);
 		}
 
 		// QuadInOut
 		class CalcQuadInOut : Interporate{
+			static CalcQuadInOut _instance = null;
+			public static CalcQuadInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuadInOut;
 			public override float Time(float time){
 				if ((time /= .5f) < 1f) return .5f * time * time;
@@ -1203,18 +1218,24 @@ namespace PegC.Util
 
 		// CubicIn
 		class CalcCubicIn : Interporate{
+			static CalcCubicIn _instance = null;
+			public static CalcCubicIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.CubicIn;
 			public override float Time(float time) => time * time * time;
 		}
 
 		// CubicOut
 		class CalcCubicOut : Interporate{
+			static CalcCubicOut _instance = null;
+			public static CalcCubicOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.CubicOut;
 			public override float Time(float time) => (time -= 1f) * time * time + 1f;
 		}
 
 		// CubicInOut
 		class CalcCubicInOut : Interporate{
+			static CalcCubicInOut _instance = null;
+			public static CalcCubicInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.CubicInOut;
 			public override float Time(float time){
 				if ((time /= .5f) < 1f) return .5f * time * time * time;
@@ -1223,18 +1244,24 @@ namespace PegC.Util
 		}
 		// QuadIn
 		class CalcQuartIn : Interporate{
+			static CalcQuartIn _instance = null;
+			public static CalcQuartIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuartIn;
 			public override float Time(float time) => time * time * time * time;
 		}
 
 		// QuartOut
 		class CalcQuartOut : Interporate{
+			static CalcQuartOut _instance = null;
+			public static CalcQuartOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuadOut;
 			public override float Time(float time) => -((time -= 1f) * time * time * time - 1f);
 		}
 
 		// QuartInOut
 		class CalcQuartInOut : Interporate{
+			static CalcQuartInOut _instance = null;
+			public static CalcQuartInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuartInOut;
 			public override float Time(float time){
 				if ((time /= .5f) < 1f) return .5f * time * time * time * time;
@@ -1244,18 +1271,24 @@ namespace PegC.Util
 
 		// QuintIn
 		class CalcQuintIn : Interporate{
+			static CalcQuintIn _instance = null;
+			public static CalcQuintIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuintIn;
 			public override float Time(float time) => time * time * time * time * time;
 		}
 
 		// QuintOut
 		class CalcQuintOut : Interporate{
+			static CalcQuintOut _instance = null;
+			public static CalcQuintOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuintOut;
 			public override float Time(float time) => (time -= 1f) * time * time * time * time + 1f;
 		}
 
 		// QuintInOut
 		class CalcQuintInOut : Interporate{
+			static CalcQuintInOut _instance = null;
+			public static CalcQuintInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.QuintInOut;
 			public override float Time(float time){
 				if ((time /= .5f) < 1f) return .5f * time * time * time * time * time;
@@ -1265,18 +1298,24 @@ namespace PegC.Util
 
 		// ExpoIn
 		class CalcExpoIn : Interporate{
+			static CalcExpoIn _instance = null;
+			public static CalcExpoIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.ExpoIn;
 			public override float Time(float time) => Mathf.Pow(2f, 10f * (time - 1f));
 		}
 
 		// ExpoIn
 		class CalcExpoOut : Interporate{
+			static CalcExpoOut _instance = null;
+			public static CalcExpoOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.ExpoOut;
 			public override float Time(float time) => -Mathf.Pow(2f, -10f * time) + 1f;
 		}
 
 		// ExpoInOut
 		class CalcExpoInOut : Interporate{
+			static CalcExpoInOut _instance = null;
+			public static CalcExpoInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.ExpoInOut;
 			public override float Time(float time){
 				if ((time /= .5f) < 1f) return .5f * Mathf.Pow(2f, 10f * (time - 1f));
@@ -1286,18 +1325,24 @@ namespace PegC.Util
 
 		// CircIn
 		class CalcCircIn : Interporate{
+			static CalcCircIn _instance = null;
+			public static CalcCircIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.CircIn;
 			public override float Time(float time) => -(Mathf.Sqrt(1f - time * time) - 1f);
 		}
 
 		// CircOut
 		class CalcCircOut : Interporate{
+			static CalcCircOut _instance = null;
+			public static CalcCircOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.CircOut;
 			public override float Time(float time) => Mathf.Sqrt(1f - (time -= 1f) * time);
 		}
 
 		// CircInOut
 		class CalcCircInOut : Interporate{
+			static CalcCircInOut _instance = null;
+			public static CalcCircInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.CircInOut;
 			public override float Time(float time){
 				if ((time /= .5f) < 1f) return -.5f * (Mathf.Sqrt(1f - time * time) - 1f);
@@ -1307,6 +1352,8 @@ namespace PegC.Util
 
 		// BackIn
 		class CalcBackIn : Interporate{
+			static CalcBackIn _instance = null;
+			public static CalcBackIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.BackIn;
 			const float s = 1.70158f;
 			public override float Time(float time) => time * time * ((s + 1f) * time - s);
@@ -1318,6 +1365,8 @@ namespace PegC.Util
 
 		// BackOut
 		class CalcBackOut : Interporate{
+			static CalcBackOut _instance = null;
+			public static CalcBackOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.BackOut;
 			const float s = 1.70158f;
 			public override float Time(float time) => --time * time * ((s + 1f) * time + s) + 1f;
@@ -1329,6 +1378,8 @@ namespace PegC.Util
 
 		// BackInOut
 		class CalcBackInOut : Interporate{
+			static CalcBackInOut _instance = null;
+			public static CalcBackInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.BackInOut;
 			const float s = 1.70158f * 1.525f;
 			public override float Time(float time){
@@ -1344,6 +1395,8 @@ namespace PegC.Util
 
 		// ElasticIn
 		class CalcElasticIn : Interporate{
+			static CalcElasticIn _instance = null;
+			public static CalcElasticIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.ElasticIn;
 			const float p = .3f;
 			const float s = p / 4f;
@@ -1356,6 +1409,8 @@ namespace PegC.Util
 
 		// ElasticOut
 		class CalcElasticOut : Interporate{
+			static CalcElasticOut _instance = null;
+			public static CalcElasticOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.ElasticOut;
 			const float p = .3f;
 			const float s = p / 4f;
@@ -1368,6 +1423,8 @@ namespace PegC.Util
 
 		// ElasticInOut
 		class CalcElasticInOut : Interporate{
+			static CalcElasticInOut _instance = null;
+			public static CalcElasticInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.ElasticInOut;
 			const float p = .3f * 1.5f;
 			const float s = p / 4f;
@@ -1384,6 +1441,8 @@ namespace PegC.Util
 
 		// BounceIn
 		class CalcBounceIn : Interporate{
+			static CalcBounceIn _instance = null;
+			public static CalcBounceIn instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.BounceIn;
 			static CalcBounceOut bout = new CalcBounceOut();
 			public override float Time(float time) => 1f - time;
@@ -1395,6 +1454,8 @@ namespace PegC.Util
 
 		// BounceOut
 		class CalcBounceOut : Interporate{
+			static CalcBounceOut _instance = null;
+			public static CalcBounceOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.BounceOut;
 			public override float Time(float time){
 				if (time < (1f / 2.75f))
@@ -1413,6 +1474,8 @@ namespace PegC.Util
 
 		// BounceInOut
 		class CalcBounceInOut : Interporate{
+			static CalcBounceInOut _instance = null;
+			public static CalcBounceInOut instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.BounceInOut;
 			static CalcBounceIn bin = new CalcBounceIn();
 			static CalcBounceOut bout = new CalcBounceOut();
@@ -1425,6 +1488,8 @@ namespace PegC.Util
 
 		// Spring
 		class CalcSpring : Interporate{
+			static CalcSpring _instance = null;
+			public static CalcSpring instance => _instance ?? (_instance = new ());
 			public static new EaseType Type = EaseType.Spring;
 			public override float Time(float time) {
 				time = Mathf.Clamp01(time);
@@ -1439,5 +1504,171 @@ namespace PegC.Util
 
 
 	#endregion Interporate
+
+		// イージング関数.
+	#region Easing
+		public static float EaseLinear(float from,float to,float time) => CalcLerp.instance.Op(from,to,time);
+		public static Vector2 EaseLinear(Vector2 from, Vector2 to,float time) => CalcLerp.instance.Op(from,to,time);
+		public static Vector3 EaseLinear(Vector3 from, Vector3 to,float time) => CalcLerp.instance.Op(from,to,time);
+		public static Vector4 EaseLinear(Vector4 from, Vector4 to,float time) => CalcLerp.instance.Op(from,to,time);
+
+		public static float EaseSineIn(float from,float to,float time) => CalcSineIn.instance.Op(from,to,time);
+		public static Vector2 EaseSineIn(Vector2 from, Vector2 to,float time) => CalcSineIn.instance.Op(from,to,time);
+		public static Vector3 EaseSineIn(Vector3 from, Vector3 to,float time) => CalcSineIn.instance.Op(from,to,time);
+		public static Vector4 EaseSineIn(Vector4 from, Vector4 to,float time) => CalcSineIn.instance.Op(from,to,time);
+
+		public static float EaseSineOut(float from,float to,float time) => CalcSineOut.instance.Op(from,to,time);
+		public static Vector2 EaseSineOut(Vector2 from, Vector2 to,float time) => CalcSineOut.instance.Op(from,to,time);
+		public static Vector3 EaseSineOut(Vector3 from, Vector3 to,float time) => CalcSineOut.instance.Op(from,to,time);
+		public static Vector4 EaseSineOut(Vector4 from, Vector4 to,float time) => CalcSineOut.instance.Op(from,to,time);
+
+		public static float EaseSineInOut(float from,float to,float time) => CalcSineInOut.instance.Op(from,to,time);
+		public static Vector2 EaseSineInOut(Vector2 from, Vector2 to,float time) => CalcSineInOut.instance.Op(from,to,time);
+		public static Vector3 EaseSineInOut(Vector3 from, Vector3 to,float time) => CalcSineInOut.instance.Op(from,to,time);
+		public static Vector4 EaseSineInOut(Vector4 from, Vector4 to,float time) => CalcSineInOut.instance.Op(from,to,time);
+
+		public static float EaseQuadIn(float from,float to,float time) => CalcQuadIn.instance.Op(from,to,time);
+		public static Vector2 EaseQuadIn(Vector2 from, Vector2 to,float time) => CalcQuadIn.instance.Op(from,to,time);
+		public static Vector3 EaseQuadIn(Vector3 from, Vector3 to,float time) => CalcQuadIn.instance.Op(from,to,time);
+		public static Vector4 EaseQuadIn(Vector4 from, Vector4 to,float time) => CalcQuadIn.instance.Op(from,to,time);
+
+		public static float EaseQuadOut(float from,float to,float time) => CalcQuadOut.instance.Op(from,to,time);
+		public static Vector2 EaseQuadOut(Vector2 from, Vector2 to,float time) => CalcQuadOut.instance.Op(from,to,time);
+		public static Vector3 EaseQuadOut(Vector3 from, Vector3 to,float time) => CalcQuadOut.instance.Op(from,to,time);
+		public static Vector4 EaseQuadOut(Vector4 from, Vector4 to,float time) => CalcQuadOut.instance.Op(from,to,time);
+
+		public static float EaseQuadInOut(float from,float to,float time) => CalcQuadInOut.instance.Op(from,to,time);
+		public static Vector2 EaseQuadInOut(Vector2 from, Vector2 to,float time) => CalcQuadInOut.instance.Op(from,to,time);
+		public static Vector3 EaseQuadInOut(Vector3 from, Vector3 to,float time) => CalcQuadInOut.instance.Op(from,to,time);
+		public static Vector4 EaseQuadInOut(Vector4 from, Vector4 to,float time) => CalcQuadInOut.instance.Op(from,to,time);
+
+		public static float EaseCubicIn(float from,float to,float time) => CalcCubicIn.instance.Op(from,to,time);
+		public static Vector2 EaseCubicIn(Vector2 from, Vector2 to,float time) => CalcCubicIn.instance.Op(from,to,time);
+		public static Vector3 EaseCubicIn(Vector3 from, Vector3 to,float time) => CalcCubicIn.instance.Op(from,to,time);
+		public static Vector4 EaseCubicIn(Vector4 from, Vector4 to,float time) => CalcCubicIn.instance.Op(from,to,time);
+
+		public static float EaseCubicOut(float from,float to,float time) => CalcCubicOut.instance.Op(from,to,time);
+		public static Vector2 EaseCubicOut(Vector2 from, Vector2 to,float time) => CalcCubicOut.instance.Op(from,to,time);
+		public static Vector3 EaseCubicOut(Vector3 from, Vector3 to,float time) => CalcCubicOut.instance.Op(from,to,time);
+		public static Vector4 EaseCubicOut(Vector4 from, Vector4 to,float time) => CalcCubicOut.instance.Op(from,to,time);
+
+		public static float EaseCubicInOut(float from,float to,float time) => CalcCubicInOut.instance.Op(from,to,time);
+		public static Vector2 EaseCubicInOut(Vector2 from, Vector2 to,float time) => CalcCubicInOut.instance.Op(from,to,time);
+		public static Vector3 EaseCubicInOut(Vector3 from, Vector3 to,float time) => CalcCubicInOut.instance.Op(from,to,time);
+		public static Vector4 EaseCubicInOut(Vector4 from, Vector4 to,float time) => CalcCubicInOut.instance.Op(from,to,time);
+
+		public static float EaseQuartIn(float from,float to,float time) => CalcQuartIn.instance.Op(from,to,time);
+		public static Vector2 EaseQuartIn(Vector2 from, Vector2 to,float time) => CalcQuartIn.instance.Op(from,to,time);
+		public static Vector3 EaseQuartIn(Vector3 from, Vector3 to,float time) => CalcQuartIn.instance.Op(from,to,time);
+		public static Vector4 EaseQuartIn(Vector4 from, Vector4 to,float time) => CalcQuartIn.instance.Op(from,to,time);
+
+		public static float EaseQuartOut(float from,float to,float time) => CalcQuartOut.instance.Op(from,to,time);
+		public static Vector2 EaseQuartOut(Vector2 from, Vector2 to,float time) => CalcQuartOut.instance.Op(from,to,time);
+		public static Vector3 EaseQuartOut(Vector3 from, Vector3 to,float time) => CalcQuartOut.instance.Op(from,to,time);
+		public static Vector4 EaseQuartOut(Vector4 from, Vector4 to,float time) => CalcQuartOut.instance.Op(from,to,time);
+
+		public static float EaseQuartInOut(float from,float to,float time) => CalcQuartInOut.instance.Op(from,to,time);
+		public static Vector2 EaseQuartInOut(Vector2 from, Vector2 to,float time) => CalcQuartInOut.instance.Op(from,to,time);
+		public static Vector3 EaseQuartInOut(Vector3 from, Vector3 to,float time) => CalcQuartInOut.instance.Op(from,to,time);
+		public static Vector4 EaseQuartInOut(Vector4 from, Vector4 to,float time) => CalcQuartInOut.instance.Op(from,to,time);
+
+		public static float EaseQuintIn(float from,float to,float time) => CalcQuintIn.instance.Op(from,to,time);
+		public static Vector2 EaseQuintIn(Vector2 from, Vector2 to,float time) => CalcQuintIn.instance.Op(from,to,time);
+		public static Vector3 EaseQuintIn(Vector3 from, Vector3 to,float time) => CalcQuintIn.instance.Op(from,to,time);
+		public static Vector4 EaseQuintIn(Vector4 from, Vector4 to,float time) => CalcQuintIn.instance.Op(from,to,time);
+
+		public static float EaseQuintOut(float from,float to,float time) => CalcQuintOut.instance.Op(from,to,time);
+		public static Vector2 EaseQuintOut(Vector2 from, Vector2 to,float time) => CalcQuintOut.instance.Op(from,to,time);
+		public static Vector3 EaseQuintOut(Vector3 from, Vector3 to,float time) => CalcQuintOut.instance.Op(from,to,time);
+		public static Vector4 EaseQuintOut(Vector4 from, Vector4 to,float time) => CalcQuintOut.instance.Op(from,to,time);
+
+		public static float EaseQuintInOut(float from,float to,float time) => CalcQuintInOut.instance.Op(from,to,time);
+		public static Vector2 EaseQuintInOut(Vector2 from, Vector2 to,float time) => CalcQuintInOut.instance.Op(from,to,time);
+		public static Vector3 EaseQuintInOut(Vector3 from, Vector3 to,float time) => CalcQuintInOut.instance.Op(from,to,time);
+		public static Vector4 EaseQuintInOut(Vector4 from, Vector4 to,float time) => CalcQuintInOut.instance.Op(from,to,time);
+
+		public static float EaseExpoIn(float from,float to,float time) => CalcExpoIn.instance.Op(from,to,time);
+		public static Vector2 EaseExpoIn(Vector2 from, Vector2 to,float time) => CalcExpoIn.instance.Op(from,to,time);
+		public static Vector3 EaseExpoIn(Vector3 from, Vector3 to,float time) => CalcExpoIn.instance.Op(from,to,time);
+		public static Vector4 EaseExpoIn(Vector4 from, Vector4 to,float time) => CalcExpoIn.instance.Op(from,to,time);
+
+		public static float EaseExpoOut(float from,float to,float time) => CalcExpoOut.instance.Op(from,to,time);
+		public static Vector2 EaseExpoOut(Vector2 from, Vector2 to,float time) => CalcExpoOut.instance.Op(from,to,time);
+		public static Vector3 EaseExpoOut(Vector3 from, Vector3 to,float time) => CalcExpoOut.instance.Op(from,to,time);
+		public static Vector4 EaseExpoOut(Vector4 from, Vector4 to,float time) => CalcExpoOut.instance.Op(from,to,time);
+
+		public static float EaseExpoInOut(float from,float to,float time) => CalcExpoInOut.instance.Op(from,to,time);
+		public static Vector2 EaseExpoInOut(Vector2 from, Vector2 to,float time) => CalcExpoInOut.instance.Op(from,to,time);
+		public static Vector3 EaseExpoInOut(Vector3 from, Vector3 to,float time) => CalcExpoInOut.instance.Op(from,to,time);
+		public static Vector4 EaseExpoInOut(Vector4 from, Vector4 to,float time) => CalcExpoInOut.instance.Op(from,to,time);
+
+		public static float EaseCircIn(float from,float to,float time) => CalcCircIn.instance.Op(from,to,time);
+		public static Vector2 EaseCircIn(Vector2 from, Vector2 to,float time) => CalcCircIn.instance.Op(from,to,time);
+		public static Vector3 EaseCircIn(Vector3 from, Vector3 to,float time) => CalcCircIn.instance.Op(from,to,time);
+		public static Vector4 EaseCircIn(Vector4 from, Vector4 to,float time) => CalcCircIn.instance.Op(from,to,time);
+
+		public static float EaseCircOut(float from,float to,float time) => CalcCircOut.instance.Op(from,to,time);
+		public static Vector2 EaseCircOut(Vector2 from, Vector2 to,float time) => CalcCircOut.instance.Op(from,to,time);
+		public static Vector3 EaseCircOut(Vector3 from, Vector3 to,float time) => CalcCircOut.instance.Op(from,to,time);
+		public static Vector4 EaseCircOut(Vector4 from, Vector4 to,float time) => CalcCircOut.instance.Op(from,to,time);
+
+		public static float EaseCircInOut(float from,float to,float time) => CalcCircInOut.instance.Op(from,to,time);
+		public static Vector2 EaseCircInOut(Vector2 from, Vector2 to,float time) => CalcCircInOut.instance.Op(from,to,time);
+		public static Vector3 EaseCircInOut(Vector3 from, Vector3 to,float time) => CalcCircInOut.instance.Op(from,to,time);
+		public static Vector4 EaseCircInOut(Vector4 from, Vector4 to,float time) => CalcCircInOut.instance.Op(from,to,time);
+
+		public static float EaseBackIn(float from,float to,float time) => CalcBackIn.instance.Op(from,to,time);
+		public static Vector2 EaseBackIn(Vector2 from, Vector2 to,float time) => CalcBackIn.instance.Op(from,to,time);
+		public static Vector3 EaseBackIn(Vector3 from, Vector3 to,float time) => CalcBackIn.instance.Op(from,to,time);
+		public static Vector4 EaseBackIn(Vector4 from, Vector4 to,float time) => CalcBackIn.instance.Op(from,to,time);
+
+		public static float EaseBackOut(float from,float to,float time) => CalcBackOut.instance.Op(from,to,time);
+		public static Vector2 EaseBackOut(Vector2 from, Vector2 to,float time) => CalcBackOut.instance.Op(from,to,time);
+		public static Vector3 EaseBackOut(Vector3 from, Vector3 to,float time) => CalcBackOut.instance.Op(from,to,time);
+		public static Vector4 EaseBackOut(Vector4 from, Vector4 to,float time) => CalcBackOut.instance.Op(from,to,time);
+
+		public static float EaseBackInOut(float from,float to,float time) => CalcBackInOut.instance.Op(from,to,time);
+		public static Vector2 EaseBackInOut(Vector2 from, Vector2 to,float time) => CalcBackInOut.instance.Op(from,to,time);
+		public static Vector3 EaseBackInOut(Vector3 from, Vector3 to,float time) => CalcBackInOut.instance.Op(from,to,time);
+		public static Vector4 EaseBackInOut(Vector4 from, Vector4 to,float time) => CalcBackInOut.instance.Op(from,to,time);
+
+		public static float EaseElasticIn(float from,float to,float time) => CalcElasticIn.instance.Op(from,to,time);
+		public static Vector2 EaseElasticIn(Vector2 from, Vector2 to,float time) => CalcElasticIn.instance.Op(from,to,time);
+		public static Vector3 EaseElasticIn(Vector3 from, Vector3 to,float time) => CalcElasticIn.instance.Op(from,to,time);
+		public static Vector4 EaseElasticIn(Vector4 from, Vector4 to,float time) => CalcElasticIn.instance.Op(from,to,time);
+
+		public static float EaseElasticOut(float from,float to,float time) => CalcElasticOut.instance.Op(from,to,time);
+		public static Vector2 EaseElasticOut(Vector2 from, Vector2 to,float time) => CalcElasticOut.instance.Op(from,to,time);
+		public static Vector3 EaseElasticOut(Vector3 from, Vector3 to,float time) => CalcElasticOut.instance.Op(from,to,time);
+		public static Vector4 EaseElasticOut(Vector4 from, Vector4 to,float time) => CalcElasticOut.instance.Op(from,to,time);
+
+		public static float EaseElasticInOut(float from,float to,float time) => CalcElasticInOut.instance.Op(from,to,time);
+		public static Vector2 EaseElasticInOut(Vector2 from, Vector2 to,float time) => CalcElasticInOut.instance.Op(from,to,time);
+		public static Vector3 EaseElasticInOut(Vector3 from, Vector3 to,float time) => CalcElasticInOut.instance.Op(from,to,time);
+		public static Vector4 EaseElasticInOut(Vector4 from, Vector4 to,float time) => CalcElasticInOut.instance.Op(from,to,time);
+
+		public static float EaseBounceIn(float from,float to,float time) => CalcBounceIn.instance.Op(from,to,time);
+		public static Vector2 EaseBounceIn(Vector2 from, Vector2 to,float time) => CalcBounceIn.instance.Op(from,to,time);
+		public static Vector3 EaseBounceIn(Vector3 from, Vector3 to,float time) => CalcBounceIn.instance.Op(from,to,time);
+		public static Vector4 EaseBounceIn(Vector4 from, Vector4 to,float time) => CalcBounceIn.instance.Op(from,to,time);
+
+		public static float EaseBounceOut(float from,float to,float time) => CalcBounceOut.instance.Op(from,to,time);
+		public static Vector2 EaseBounceOut(Vector2 from, Vector2 to,float time) => CalcBounceOut.instance.Op(from,to,time);
+		public static Vector3 EaseBounceOut(Vector3 from, Vector3 to,float time) => CalcBounceOut.instance.Op(from,to,time);
+		public static Vector4 EaseBounceOut(Vector4 from, Vector4 to,float time) => CalcBounceOut.instance.Op(from,to,time);
+
+		public static float EaseBounceInOut(float from,float to,float time) => CalcBounceInOut.instance.Op(from,to,time);
+		public static Vector2 EaseBounceInOut(Vector2 from, Vector2 to,float time) => CalcBounceInOut.instance.Op(from,to,time);
+		public static Vector3 EaseBounceInOut(Vector3 from, Vector3 to,float time) => CalcBounceInOut.instance.Op(from,to,time);
+		public static Vector4 EaseBounceInOut(Vector4 from, Vector4 to,float time) => CalcBounceInOut.instance.Op(from,to,time);
+
+		public static float EaseSpring(float from,float to,float time) => CalcSpring.instance.Op(from,to,time);
+		public static Vector2 EaseSpring(Vector2 from, Vector2 to,float time) => CalcSpring.instance.Op(from,to,time);
+		public static Vector3 EaseSpring(Vector3 from, Vector3 to,float time) => CalcSpring.instance.Op(from,to,time);
+		public static Vector4 EaseSpring(Vector4 from, Vector4 to,float time) => CalcSpring.instance.Op(from,to,time);
+
+	#endregion Easing
+
+
 	}
 }
