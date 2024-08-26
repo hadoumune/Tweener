@@ -70,7 +70,7 @@ namespace PegC.Util
 	{
 		public static EaseType DefaultEasing { get; set;} = EaseType.Linear;
 
-		readonly static Dictionary<EaseType, Interporate > Types = new Dictionary<EaseType, Interporate>
+		readonly static Dictionary<EaseType, Interporate> Types = new Dictionary<EaseType, Interporate>
 		{
 			{EaseType.Linear, new CalcLerp()},
 			{EaseType.SineIn, new CalcSineIn()}, {EaseType.SineOut, new CalcSineOut()}, {EaseType.SineInOut, new CalcSineInOut()},
@@ -84,6 +84,70 @@ namespace PegC.Util
 			{EaseType.ElasticIn, new CalcElasticIn()}, {EaseType.ElasticOut, new CalcElasticOut()}, {EaseType.ElasticInOut, new CalcElasticInOut()},
 			{EaseType.BounceIn, new CalcBounceIn()}, {EaseType.BounceOut, new CalcBounceOut()}, {EaseType.BounceInOut, new CalcBounceInOut()},
 			{EaseType.Spring, new CalcSpring()}
+		};
+
+		public readonly static Dictionary<EaseType, System.Func<float,float,float,float> > EaseFloat = new Dictionary<EaseType, Func<float,float,float,float> >
+		{
+			{EaseType.Linear, EaseLinear},
+			{EaseType.SineIn, EaseSineIn}, {EaseType.SineOut, EaseSineOut}, {EaseType.SineInOut, EaseSineInOut},
+			{EaseType.QuadIn, EaseQuadIn}, {EaseType.QuadOut, EaseQuadOut}, {EaseType.QuadInOut, EaseQuadInOut},
+			{EaseType.CubicIn, EaseCubicIn}, {EaseType.CubicOut, EaseCubicOut}, {EaseType.CubicInOut, EaseCubicInOut},
+			{EaseType.QuartIn, EaseQuartIn}, {EaseType.QuartOut, EaseQuartOut}, {EaseType.QuartInOut, EaseQuartInOut},
+			{EaseType.QuintIn, EaseQuintIn}, {EaseType.QuintOut, EaseQuintOut}, {EaseType.QuintInOut, EaseQuintInOut},
+			{EaseType.ExpoIn, EaseExpoIn}, {EaseType.ExpoOut, EaseExpoOut}, {EaseType.ExpoInOut, EaseExpoInOut},
+			{EaseType.CircIn, EaseCircIn}, {EaseType.CircOut, EaseCircOut}, {EaseType.CircInOut, EaseCircInOut},
+			{EaseType.BackIn, EaseBackIn}, {EaseType.BackOut, EaseBackOut}, {EaseType.BackInOut, EaseBackInOut},
+			{EaseType.ElasticIn, EaseElasticIn}, {EaseType.ElasticOut, EaseElasticOut}, {EaseType.ElasticInOut, EaseElasticInOut},
+			{EaseType.BounceIn, EaseBounceIn}, {EaseType.BounceOut, EaseBounceOut}, {EaseType.BounceInOut, EaseBounceInOut},
+			{EaseType.Spring, EaseSpring}
+		};
+
+		public readonly static Dictionary<EaseType, System.Func<Vector2,Vector2,float,Vector2> > EaseVector2 = new Dictionary<EaseType, Func<Vector2,Vector2,float,Vector2> >
+		{
+			{EaseType.Linear, EaseLinear},
+			{EaseType.SineIn, EaseSineIn}, {EaseType.SineOut, EaseSineOut}, {EaseType.SineInOut, EaseSineInOut},
+			{EaseType.QuadIn, EaseQuadIn}, {EaseType.QuadOut, EaseQuadOut}, {EaseType.QuadInOut, EaseQuadInOut},
+			{EaseType.CubicIn, EaseCubicIn}, {EaseType.CubicOut, EaseCubicOut}, {EaseType.CubicInOut, EaseCubicInOut},
+			{EaseType.QuartIn, EaseQuartIn}, {EaseType.QuartOut, EaseQuartOut}, {EaseType.QuartInOut, EaseQuartInOut},
+			{EaseType.QuintIn, EaseQuintIn}, {EaseType.QuintOut, EaseQuintOut}, {EaseType.QuintInOut, EaseQuintInOut},
+			{EaseType.ExpoIn, EaseExpoIn}, {EaseType.ExpoOut, EaseExpoOut}, {EaseType.ExpoInOut, EaseExpoInOut},
+			{EaseType.CircIn, EaseCircIn}, {EaseType.CircOut, EaseCircOut}, {EaseType.CircInOut, EaseCircInOut},
+			{EaseType.BackIn, EaseBackIn}, {EaseType.BackOut, EaseBackOut}, {EaseType.BackInOut, EaseBackInOut},
+			{EaseType.ElasticIn, EaseElasticIn}, {EaseType.ElasticOut, EaseElasticOut}, {EaseType.ElasticInOut, EaseElasticInOut},
+			{EaseType.BounceIn, EaseBounceIn}, {EaseType.BounceOut, EaseBounceOut}, {EaseType.BounceInOut, EaseBounceInOut},
+			{EaseType.Spring, EaseSpring}
+		};
+
+		public readonly static Dictionary<EaseType, System.Func<Vector3,Vector3,float,Vector3> > EaseVector3 = new Dictionary<EaseType, Func<Vector3,Vector3,float,Vector3> >
+		{
+			{EaseType.Linear, EaseLinear},
+			{EaseType.SineIn, EaseSineIn}, {EaseType.SineOut, EaseSineOut}, {EaseType.SineInOut, EaseSineInOut},
+			{EaseType.QuadIn, EaseQuadIn}, {EaseType.QuadOut, EaseQuadOut}, {EaseType.QuadInOut, EaseQuadInOut},
+			{EaseType.CubicIn, EaseCubicIn}, {EaseType.CubicOut, EaseCubicOut}, {EaseType.CubicInOut, EaseCubicInOut},
+			{EaseType.QuartIn, EaseQuartIn}, {EaseType.QuartOut, EaseQuartOut}, {EaseType.QuartInOut, EaseQuartInOut},
+			{EaseType.QuintIn, EaseQuintIn}, {EaseType.QuintOut, EaseQuintOut}, {EaseType.QuintInOut, EaseQuintInOut},
+			{EaseType.ExpoIn, EaseExpoIn}, {EaseType.ExpoOut, EaseExpoOut}, {EaseType.ExpoInOut, EaseExpoInOut},
+			{EaseType.CircIn, EaseCircIn}, {EaseType.CircOut, EaseCircOut}, {EaseType.CircInOut, EaseCircInOut},
+			{EaseType.BackIn, EaseBackIn}, {EaseType.BackOut, EaseBackOut}, {EaseType.BackInOut, EaseBackInOut},
+			{EaseType.ElasticIn, EaseElasticIn}, {EaseType.ElasticOut, EaseElasticOut}, {EaseType.ElasticInOut, EaseElasticInOut},
+			{EaseType.BounceIn, EaseBounceIn}, {EaseType.BounceOut, EaseBounceOut}, {EaseType.BounceInOut, EaseBounceInOut},
+			{EaseType.Spring, EaseSpring}
+		};
+
+		public readonly static Dictionary<EaseType, System.Func<Vector4,Vector4,float,Vector4> > EaseVector4 = new Dictionary<EaseType, Func<Vector4,Vector4,float,Vector4> >
+		{
+			{EaseType.Linear, EaseLinear},
+			{EaseType.SineIn, EaseSineIn}, {EaseType.SineOut, EaseSineOut}, {EaseType.SineInOut, EaseSineInOut},
+			{EaseType.QuadIn, EaseQuadIn}, {EaseType.QuadOut, EaseQuadOut}, {EaseType.QuadInOut, EaseQuadInOut},
+			{EaseType.CubicIn, EaseCubicIn}, {EaseType.CubicOut, EaseCubicOut}, {EaseType.CubicInOut, EaseCubicInOut},
+			{EaseType.QuartIn, EaseQuartIn}, {EaseType.QuartOut, EaseQuartOut}, {EaseType.QuartInOut, EaseQuartInOut},
+			{EaseType.QuintIn, EaseQuintIn}, {EaseType.QuintOut, EaseQuintOut}, {EaseType.QuintInOut, EaseQuintInOut},
+			{EaseType.ExpoIn, EaseExpoIn}, {EaseType.ExpoOut, EaseExpoOut}, {EaseType.ExpoInOut, EaseExpoInOut},
+			{EaseType.CircIn, EaseCircIn}, {EaseType.CircOut, EaseCircOut}, {EaseType.CircInOut, EaseCircInOut},
+			{EaseType.BackIn, EaseBackIn}, {EaseType.BackOut, EaseBackOut}, {EaseType.BackInOut, EaseBackInOut},
+			{EaseType.ElasticIn, EaseElasticIn}, {EaseType.ElasticOut, EaseElasticOut}, {EaseType.ElasticInOut, EaseElasticInOut},
+			{EaseType.BounceIn, EaseBounceIn}, {EaseType.BounceOut, EaseBounceOut}, {EaseType.BounceInOut, EaseBounceInOut},
+			{EaseType.Spring, EaseSpring}
 		};
 
 		interface IUpdaterBase {
