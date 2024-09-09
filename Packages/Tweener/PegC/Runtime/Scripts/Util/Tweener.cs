@@ -516,6 +516,56 @@ namespace PegC.Util
 			await transform.XYTo( (Vector2)transform.anchoredPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
+		public static async UniTask AnchorMinMaxXTo(this RectTransform transform, Vector2 to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var minmax = new Vector2(transform.anchorMin.x,transform.anchorMax.x);
+			await Tween( minmax, to, duration, (newPos)=>{var min = transform.anchorMin;var max = transform.anchorMax;min.x = newPos.x;max.x = newPos.y;
+															transform.anchorMin = min;transform.anchorMax = max;},
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+		public static async UniTask AnchorMinMaxYTo(this RectTransform transform, Vector2 to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var minmax = new Vector2(transform.anchorMin.y,transform.anchorMax.y);
+			await Tween( minmax, to, duration, (newPos)=>{var min = transform.anchorMin;var max = transform.anchorMax;min.y = newPos.x;max.y = newPos.y;
+															transform.anchorMin = min;transform.anchorMax = max;},
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+
+		public static async UniTask AnchorMinMaxXOffset(this RectTransform transform, Vector2 offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var to = new Vector2(transform.anchorMin.x+offset.x,transform.anchorMax.x+offset.y);
+			await transform.AnchorMinMaxXTo( to, duration, 
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+		public static async UniTask AnchorMinMaxYOffset(this RectTransform transform, Vector2 offset,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var to = new Vector2(transform.anchorMin.y+offset.x,transform.anchorMax.y+offset.y);
+			await transform.AnchorMinMaxYTo( to, duration, 
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+
+		public static async UniTask AnchorMinMaxTo(this RectTransform transform, Vector2 toMin,Vector2 toMax, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var minmax = new Vector4(transform.anchorMin.x,transform.anchorMin.y,transform.anchorMax.x,transform.anchorMax.y);
+			var to = new Vector4(toMin.x,toMin.y,toMax.x,toMax.y);
+			await Tween( minmax, to, duration, (newPos)=>{var min = transform.anchorMin;var max = transform.anchorMax;
+															min = new Vector2(newPos.x,newPos.y);
+															max = new Vector2(newPos.z,newPos.w);
+															transform.anchorMin = min;transform.anchorMax = max;},
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+		public static async UniTask AnchorMinMaxOffset(this RectTransform transform, Vector2 offsetMin,Vector2 offsetMax, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			await transform.AnchorMinMaxTo( transform.anchorMin+offsetMin, transform.anchorMax+offsetMax, duration, 
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+
 		// GameObject
 		public static async UniTask XTo(this GameObject fromObj, float to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
