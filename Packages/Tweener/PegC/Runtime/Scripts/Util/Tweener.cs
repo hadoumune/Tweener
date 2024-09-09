@@ -524,12 +524,30 @@ namespace PegC.Util
 															transform.anchorMin = min;transform.anchorMax = max;},
 												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
+		public static async UniTask AnchorMinMaxXTo(this RectTransform transform, Vector2 from, Vector2 to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var min = transform.anchorMin;min.x = from.x;transform.anchorMin = min;
+			var max = transform.anchorMax;max.x = from.y;transform.anchorMax = max;
+			await transform.AnchorMinMaxXTo( to, duration, 
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+
 		public static async UniTask AnchorMinMaxYTo(this RectTransform transform, Vector2 to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
 			var minmax = new Vector2(transform.anchorMin.y,transform.anchorMax.y);
 			await Tween( minmax, to, duration, (newPos)=>{var min = transform.anchorMin;var max = transform.anchorMax;min.y = newPos.x;max.y = newPos.y;
 															transform.anchorMin = min;transform.anchorMax = max;},
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+
+		public static async UniTask AnchorMinMaxYTo(this RectTransform transform, Vector2 from, Vector2 to,  float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var min = transform.anchorMin;min.y = from.x;transform.anchorMin = min;
+			var max = transform.anchorMax;max.y = from.y;transform.anchorMax = max;
+			await transform.AnchorMinMaxYTo( to, duration, 
 												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
@@ -559,6 +577,16 @@ namespace PegC.Util
 															transform.anchorMin = min;transform.anchorMax = max;},
 												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
 		}
+
+		public static async UniTask AnchorMinMaxTo(this RectTransform transform, Vector2 fromMin,Vector2 toMin,Vector2 fromMax,Vector2 toMax, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			transform.anchorMin = fromMin;
+			transform.anchorMax = fromMax;
+			await transform.AnchorMinMaxTo( toMin, toMax, duration,
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+
 		public static async UniTask AnchorMinMaxOffset(this RectTransform transform, Vector2 offsetMin,Vector2 offsetMax, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
