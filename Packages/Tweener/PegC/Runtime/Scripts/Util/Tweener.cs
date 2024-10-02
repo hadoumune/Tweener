@@ -1571,9 +1571,9 @@ namespace PegC.Util
 			const float p = .3f * 1.5f;
 			const float s = p / 4f;
 			public override float Time(float time){
-				if ((time /= .5f) < 1f)
-					return -.5f * Mathf.Pow(2f, 10f * (time -= 1f)) * Mathf.Sin((time - s) * DoublePi / p);
-				return (Mathf.Pow(2f, -10f * (time -= 1f)) * Mathf.Sin((time - s) * DoublePi / p)) * 1.5f;
+				if ((time /= 0.5f) < 1f)
+					return -0.5f * Mathf.Pow(2f, 10f * (time -= 1f)) * Mathf.Sin((time - s) * DoublePi / p);
+				return 0.5f * (Mathf.Pow(2f, -10f * (time -= 1f)) * Mathf.Sin((time - s) * DoublePi / p))+1.0f;
 			}
 			public override float Op(float from,float to, float time){ to -= from; return to * Time(time) + from; }
 			public override Vector2 Op(Vector2 from,Vector2 to, float time){ to -= from; return to*Time(time) + from;}
