@@ -700,6 +700,13 @@ namespace PegC.Util
 												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
 		}
 
+		public static async UniTask AlphaTo(this SpriteRenderer fromObj, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			await Tween( fromObj.color.a, to, duration, (newPos)=>{ var col = fromObj.color; col.a = newPos; fromObj.color = col; },
+												type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+
 		public static async UniTask AlphaTo(this Renderer fromObj, float to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
