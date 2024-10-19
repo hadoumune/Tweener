@@ -671,6 +671,20 @@ namespace PegC.Util
 		public static async UniTask LocalXYOffset(this GameObject fromObj, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 												=> await fromObj.transform.LocalXYOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
+
+		public static async UniTask XZTo(this GameObject fromObj, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.XZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
+		public static async UniTask XZOffset(this GameObject fromObj, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.XZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
+		public static async UniTask LocalXZTo(this GameObject fromObj, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalXZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
+		public static async UniTask LocalXZOffset(this GameObject fromObj, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+												=> await fromObj.transform.LocalXZOffset( offset, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
+
 		public static async UniTask XYZTo(this GameObject fromObj, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 												=> await fromObj.transform.XYZTo( to, duration, type, getCT(fromObj,ct), complete, repeat, delay, pingPong, customFunc);
@@ -1028,6 +1042,21 @@ namespace PegC.Util
 		public static async UniTask LocalXYOffset<T>(this Transform transform, Vector2 offset, float duration, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
 					await transform.LocalXYOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
+
+		public static async UniTask XZTo<T>(this Transform transform, Vector2 to, float duration, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.XZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
+		public static async UniTask XZOffset<T>(this Transform transform, Vector2 offset, float duration, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.XZOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
+
+		public static async UniTask LocalXZTo<T>(this Transform transform, Vector2 to, float duration, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalXZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
+		public static async UniTask LocalXZOffset<T>(this Transform transform, Vector2 offset, float duration, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
+					await transform.LocalXZOffset( offset, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
+
 		public static async UniTask XYZTo<T>(this Transform transform, Vector3 to, float duration, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null) where T: IEaseTypeHint,new()=>
 					await transform.XYZTo( to, duration,new T().FuncType(), ct, complete, repeat,  delay, pingPong, customFunc);
