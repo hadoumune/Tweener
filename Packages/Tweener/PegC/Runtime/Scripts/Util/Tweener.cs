@@ -384,6 +384,34 @@ namespace PegC.Util
 			await transform.LocalXYTo( (Vector2)transform.localPosition+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
 		}
 
+		public static async UniTask XZTo(this Transform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+										System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var from = new Vector2(transform.position.x,transform.position.z);
+			await Tween( from, to, duration, (newPos)=>{ var p = transform.position; p.x = newPos.x; p.z = newPos.y; transform.position = p; },
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+		public static async UniTask XZOffset(this Transform transform, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var from = new Vector2(transform.position.x,transform.position.z);
+			await transform.XZTo( from+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
+		}
+
+		public static async UniTask LocalXZTo(this Transform transform, Vector2 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var from = new Vector2(transform.localPosition.x,transform.localPosition.z);
+			await Tween( from, to, duration, (newPos)=>{ var p = transform.localPosition; p.x = newPos.x; p.z = newPos.y; transform.localPosition = p; },
+												type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc );
+		}
+		public static async UniTask LocalXZOffset(this Transform transform, Vector2 offset, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
+												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
+		{
+			var from = new Vector2(transform.localPosition.x,transform.localPosition.z);
+			await transform.LocalXZTo( from+offset, duration, type, getCT(transform,ct), complete, repeat, delay, pingPong, customFunc);
+		}
+
 		public static async UniTask XYZTo(this Transform transform, Vector3 to, float duration, EaseType type=EaseType.Default, CancellationToken? ct=null,
 												System.Action<bool> complete=null, int repeat=0, float delay=0, bool pingPong=false,Interporate customFunc=null)
 		{
