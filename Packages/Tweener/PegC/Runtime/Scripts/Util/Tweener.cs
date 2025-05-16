@@ -231,35 +231,40 @@ namespace PegC.Util
 			if ( duration > 0.0f ) invDuration = 1.0f/duration;
 			try
 			{
-				while ( isInfinite || counter > 0 )
+				while (isInfinite || counter > 0)
 				{
 					ct.ThrowIfCancellationRequested();
-					if (delay > 0f) await UniTask.WaitForSeconds(delay,cancellationToken:ct);
+					if (delay > 0f) await UniTask.WaitForSeconds(delay, cancellationToken: ct);
 					var t = 0f;
-					while ( t <= 1f )
+					while (t <= 1f)
 					{
 						t += Time.deltaTime * invDuration;
 						updater.Update(Mathf.Clamp01(t));
-						await UniTask.NextFrame(cancellationToken:ct);
+						await UniTask.NextFrame(cancellationToken: ct);
 					}
 
-					if ( pingPong )
+					if (pingPong)
 					{
-						if (delay > 0f) await UniTask.WaitForSeconds(delay,cancellationToken:ct);
+						if (delay > 0f) await UniTask.WaitForSeconds(delay, cancellationToken: ct);
 						t = 0f;
-						while ( t <= 1f )
+						while (t <= 1f)
 						{
 							t += Time.deltaTime * invDuration;
 							updater.ReverseUpdate(Mathf.Clamp01(t));
-							await UniTask.NextFrame(cancellationToken:ct);
+							await UniTask.NextFrame(cancellationToken: ct);
 						}
 					}
-					if ( !isInfinite ) counter--;
+					if (!isInfinite) counter--;
 
-					if ( isInfinite ) complete?.Invoke(false);
+					if (isInfinite) complete?.Invoke(false);
 				}
 				// 有限回ならこちらにくる.
-				if ( !isInfinite ) complete?.Invoke(true);
+				if (!isInfinite) complete?.Invoke(true);
+			}
+			catch (OperationCanceledException e)
+			{
+				complete?.Invoke(true);
+				throw e;
 			}
 			catch (System.Exception e)
 			{
